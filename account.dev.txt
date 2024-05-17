@@ -1,1 +1,81 @@
-
+[
+  {
+    "key": "datr",
+    "value": "lQFHZhNU-Dt2NnvL9bW0vF1b",
+    "expires": "2025-06-21T07:04:53.000Z",
+    "maxAge": 34560000,
+    "domain": "facebook.com",
+    "path": "/",
+    "secure": true,
+    "httpOnly": true,
+    "extensions": [
+      "SameSite=None"
+    ],
+    "hostOnly": false,
+    "creation": "2024-05-17T07:04:53.734Z",
+    "lastAccessed": "2024-05-17T07:05:02.066Z"
+  },
+  {
+    "key": "sb",
+    "value": "lQFHZlQbMiBHnC_SVrAnrPKy",
+    "expires": "2025-06-21T07:04:53.000Z",
+    "maxAge": 34560000,
+    "domain": "facebook.com",
+    "path": "/",
+    "secure": true,
+    "httpOnly": true,
+    "extensions": [
+      "SameSite=None"
+    ],
+    "hostOnly": false,
+    "creation": "2024-05-17T07:04:53.741Z",
+    "lastAccessed": "2024-05-17T07:05:02.066Z"
+  },
+  {
+    "key": "fr",
+    "value": "01Z3L2O6riLqQiF84.AWWsyo2WUatvMe5sqrATMncSBdY.BmRwGV..AAA.0.0.BmRwGV.AWWup1SmsT8",
+    "expires": "2024-08-15T07:04:53.000Z",
+    "maxAge": 7776000,
+    "domain": "facebook.com",
+    "path": "/",
+    "secure": true,
+    "httpOnly": true,
+    "extensions": [
+      "SameSite=None"
+    ],
+    "hostOnly": false,
+    "creation": "2024-05-17T07:04:53.744Z",
+    "lastAccessed": "2024-05-17T07:05:02.066Z"
+  },
+  {
+    "key": "c_user",
+    "value": "61559767502303",
+    "expires": "2025-05-17T07:04:53.000Z",
+    "maxAge": 31536000,
+    "domain": "facebook.com",
+    "path": "/",
+    "secure": true,
+    "extensions": [
+      "SameSite=None"
+    ],
+    "hostOnly": false,
+    "creation": "2024-05-17T07:04:58.923Z",
+    "lastAccessed": "2024-05-17T07:05:02.066Z"
+  },
+  {
+    "key": "xs",
+    "value": "37%3Ads2UJppTqXTl-Q%3A2%3A1715929495%3A-1%3A-1",
+    "expires": "2025-05-17T07:04:53.000Z",
+    "maxAge": 31536000,
+    "domain": "facebook.com",
+    "path": "/",
+    "secure": true,
+    "httpOnly": true,
+    "extensions": [
+      "SameSite=None"
+    ],
+    "hostOnly": false,
+    "creation": "2024-05-17T07:04:58.924Z",
+    "lastAccessed": "2024-05-17T07:05:02.066Z"
+  }
+]
