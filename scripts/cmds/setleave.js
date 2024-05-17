@@ -4,15 +4,11 @@ module.exports = {
 	config: {
 		name: "setleave",
 		aliases: ["setl"],
-		version: "1.4",
+		version: "1.7",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: {
-			vi: "Chỉnh sửa nội dung tin nhắn tạm biệt",
-			en: "Edit leave message"
-		},
-		longDescription: {
+		description: {
 			vi: "Chỉnh sửa nội dung/bật/tắt tin nhắn tạm biệt thành viên rời khỏi nhóm chat của bạn",
 			en: "Edit content/turn on/off leave message when member leave your group chat"
 		},
@@ -34,7 +30,7 @@ module.exports = {
 					+ "\n\nVí dụ:"
 					+ "\n   {pn} file reset: xóa gửi file",
 				attachment: {
-					[`${__dirname}/assets/guide/setleave_1.png`]: "https://i.ibb.co/2FKJHJr/guide1.png"
+					[`${__dirname}/assets/guide/setleave/setleave_vi_1.png`]: "https://i.ibb.co/2FKJHJr/guide1.png"
 				}
 			},
 			en: {
@@ -53,7 +49,7 @@ module.exports = {
 					+ "\n\nExample:"
 					+ "\n   {pn} file reset: reset file",
 				attachment: {
-					[`${__dirname}/assets/guide/setleave_1.png`]: "https://i.ibb.co/2FKJHJr/guide1.png"
+					[`${__dirname}/assets/guide/setleave/setleave_en_1.png`]: "https://i.ibb.co/2FKJHJr/guide1.png"
 				}
 			}
 		}
@@ -118,7 +114,7 @@ module.exports = {
 					});
 					message.reply(getLang("resetedFile"));
 				}
-				else if (event.attachments.length == 0 && (!event.messageReply || event.messageReply.attachments.length == 0))
+				else if (event.attachments.length == 0 && (!event.messageReply || event.messageReply.attachments.length == 0)) {
 					return message.reply(getLang("missingFile"), (err, info) => {
 						global.GoatBot.onReply.set(info.messageID, {
 							messageID: info.messageID,
@@ -126,6 +122,7 @@ module.exports = {
 							commandName
 						});
 					});
+				}
 				else {
 					saveChanges(message, event, threadID, senderID, threadsData, getLang);
 				}
@@ -161,13 +158,14 @@ async function saveChanges(message, event, threadID, senderID, threadsData, getL
 	if (!data.leaveAttachment)
 		data.leaveAttachment = [];
 
-	for (const attachment of attachments) {
+	await Promise.all(attachments.map(async attachment => {
 		const { url } = attachment;
 		const ext = getExtFromUrl(url);
 		const fileName = `${getTime()}.${ext}`;
 		const infoFile = await drive.uploadFile(`setleave_${threadID}_${senderID}_${fileName}`, await getStreamFromURL(url));
 		data.leaveAttachment.push(infoFile.id);
-	}
+	}));
+
 	await threadsData.set(threadID, {
 		data
 	});

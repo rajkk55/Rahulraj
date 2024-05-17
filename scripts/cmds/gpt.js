@@ -16,15 +16,11 @@ const { openAIUsing, openAIHistory } = global.temp;
 module.exports = {
 	config: {
 		name: "gpt",
-		version: "1.2",
+		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: {
-			vi: "GPT chat",
-			en: "GPT chat"
-		},
-		longDescription: {
+		description: {
 			vi: "GPT chat",
 			en: "GPT chat"
 		},
@@ -117,7 +113,7 @@ module.exports = {
 				return message.reply(getLang('clearHistory'));
 			}
 			default: {
-				if (!args[1])
+				if (!args[0])
 					return message.reply(getLang('invalidContent'));
 
 				handleGpt(event, message, args, getLang, commandName);

@@ -14,6 +14,7 @@
 - [📝 **Note**](#-note)
 - [🚧 **Requirement**](#-requirement)
 - [📝 **Tutorial**](#-tutorial)
+- [💡 **How it works?**](#-how-it-works)
 - [🔔 **How to get notification when have new update?**](#-how-to-get-notification-when-have-new-update)
 - [🆙 **How to Update**](#-how-to-update)
 - [🛠️ **How to create new commands**](#️-how-to-create-new-commands)
@@ -34,6 +35,7 @@
 
 ## 🚧 **Requirement**
 - Node.js 16.x [Download](https://nodejs.org/dist/v16.20.0) | [Home](https://nodejs.org/en/download/) | [Other versions](https://nodejs.org/en/download/releases/)
+- Knowledge of **programming**, javascript, nodejs, unofficial facebook api
 
 ## 📝 **Tutorial**
 Tutorial has been uploaded on YouTube
@@ -42,6 +44,74 @@ Tutorial has been uploaded on YouTube
   
 Summary instructions:
 - See [here](https://github.com/ntkhang03/Goat-Bot-V2/blob/main/STEP_INSTALL.md)
+
+
+
+## 💡 **How it works?**
+- The bot uses the unofficial facebook api to send and receive messages from the user.
+- When having a `new event` (message, reaction, new user join, user leave chat box,...) the bot will emit an event to the `handlerEvents`.
+- The `handlerEvents` will handle the event and execute the command:
+  - `onStart`:
+    - the handler will check if user `call a command or not`.
+    - if yes, it will check if `user banned` or mode `admin box only is turned on` or not, if not, it will execute the command.
+    - next, it will check the `permission` of the user.
+    - next, it will check if the `countdown` of command is over or not.
+    - finally, it will execute the command and `log` information to the console.
+
+  - `onChat`:
+    - the handler will run `when the user sends a message`.
+    - it will check `permission` of the user.
+    - the handler will `execute` the command, if it return a `function` or `async function` then it willl check `user banned` or mode `admin box only is turned on` or not, if not, it will call the function and `log` information to the console.
+
+  - `onFirstChat`:
+    - the handler will run `when get the first message` from the chat box since the bot started.
+    - the way it works is like `onChat`.
+
+  - `onReaction`:
+    - the handler will run when the user `reacts` to a `message has messageID` is set in `GoatBot.onReaction` as follows:
+		```javascript
+		// example:	
+		global.GoatBot.onReaction.set(msg.messageID, {
+			messageID: msg.messageID,
+			commandName,
+			// ... and more
+		});
+		```
+    - the handler will automatically add method `delete`, if this method is called, it will delete the message from the set.
+    - next, it will check `permission` of the user and `execute` if the user has permission and `log` information to the console.
+
+  - `onReply`:
+    - the handler will run when the user `replies` to a `message has messageID` is set in `GoatBot.onReply` as follows:
+		```javascript
+		// example:
+		global.GoatBot.onReply.set(msg.messageID, {
+			messageID: msg.messageID,
+			commandName,
+			// ... and more
+		});
+		```
+    - the handler will automatically add method `delete`, if this method is called, it will delete the message from the set.
+    - next, it will check `permission` of the user and `execute` if the user has permission and `log` information to the console.  
+
+  - `onEvent`:
+    - the handler will run `when the user has a new event` type `event` (new user join, user leave chat box, change admin box,...)
+		```javascript
+		// example:
+		global.GoatBot.onEvent.set(msg.messageID, {
+			messageID: msg.messageID,
+			commandName,
+			// ... and more
+		});
+		```
+		- it will loop through all `onEvent` and get the command determined by the key `commandName` and execute the `onEvent` in that command.
+		- if it return a `function` or `async function` then it will call the function and `log` information to the console.
+
+  - `handlerEvent`:
+    - the handler will run `when the user has a new event` type `event` (new user join, user leave chat box, change admin box,...)
+    - it will get all the eventCommand set in `GoatBot.eventCommands` (scripts placed in the `scripts/events` folder)
+    - it will loop through all `eventCommands` and run the `onStart` in that command.
+    - if it return a `function` or `async function` then it will call the function and `log` information to the console.
+
 
 ## 🔔 **How to get notification when have new update?**
 - Click on the `Watch` button in the upper right corner of the screen and select `Custom` and select `Pull requests` and `Releases` and click `Apply` to get notified when there is a new update.
@@ -58,8 +128,7 @@ Tutorial has been uploaded on YouTube
 If you have major coding issues with this bot, please join and ask for help.
 - https://discord.com/invite/DbyGwmkpVY (recommended)
 - https://www.facebook.com/groups/goatbot
-- https://www.facebook.com/groups/goatbot/permalink/493150412403231
-- https://m.me/j/AbYrIGusyc0M402z
+- https://m.me/j/Abbq0B-nmkGJUl2C
 - ~~https://t.me/gatbottt~~ (no longer supported)
 - ***Please do not inbox me, I do not respond to private messages, any questions please join the chat group for answers. ThankThanks!***
 
@@ -175,43 +244,45 @@ If you have major coding issues with this bot, please join and ask for help.
 	<summary>
  		Home:
 	</summary>
-	<p><img src="https://i.ibb.co/xzv6s2j/dbHome.png" width="399px"></p>
+	<p><img src="https://i.postimg.cc/GtwP4Cqm/Screenshot-2023-12-23-105357.png" width="399px"></p>
+	<p><img src="https://i.postimg.cc/MTjbZT0L/Screenshot-2023-12-23-105554.png" width="399px"></p>
 </details>
 
 <details>
 	<summary>
  		Stats:
 	</summary>
-	<p><img src="https://i.ibb.co/zVZv9LF/dbStats.png" width="399px"></p>
+	<p><img src="https://i.postimg.cc/QtXt98B7/image.png" width="399px"></p>
 </details>
 
 <details>
 	<summary>
  		Login/Register:
 	</summary>
-	<p><img src="https://i.ibb.co/SK61MRx/dbLogin.png" width="399px"></p>
-	<p><img src="https://i.ibb.co/1rchbb1/db-Register.png" width="399px"></p>
+	<p><img src="https://i.postimg.cc/Jh05gKsM/Screenshot-2023-12-23-105743.png" width="399px"></p>
+	<p><img src="https://i.postimg.cc/j5nM9K8m/Screenshot-2023-12-23-105748.png" width="399px"></p>
 </details>
 
 <details>
 	<summary>
  		Dashboard Thread:
 	</summary>
-	<p><img src="https://i.ibb.co/NK5yYwx/dbThread.png" width="399px"></p>
+	<p><img src="https://i.postimg.cc/RF237v1Z/Screenshot-2023-12-23-105913.png" width="399px"></p>
 </details>
 
 <details>
 	<summary>
  		Custom on/off:
 	</summary>
-	<p><img src="https://i.ibb.co/mJqsP2L/dbCustom.png" width="399px"></p>
+	<p><img src="https://i.ibb.co/McDRhmX/image.png" width="399px"></p>
 </details>
 
 <details>
 	<summary>
  		Custom welcome message (similar with leave, rankup (coming soon), custom command (coming soon))
 	</summary>
-	<p><img src="https://i.ibb.co/3SyfQkz/db-Custom-Welcome.png" width="399px"></p>
+	<p><img src="https://i.ibb.co/6ZrQqc1/image.png" width="399px"></p>
+	<p><img src="https://i.ibb.co/G53JsXm/image.png" width="399px"></p>
 </details>
 
 ## ✨ **Copyright (C)**

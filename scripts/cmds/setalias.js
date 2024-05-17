@@ -1,15 +1,11 @@
 module.exports = {
 	config: {
 		name: "setalias",
-		version: "1.6",
+		version: "1.8",
 		author: "NTKhang",
 		countDown: 5,
 		role: 0,
-		shortDescription: {
-			vi: "Thêm tên gọi khác cho lệnh",
-			en: "Add an alias for the command"
-		},
-		longDescription: {
+		description: {
 			vi: "Thêm tên gọi khác cho 1 lệnh bất kỳ trong nhóm của bạn",
 			en: "Add an alias for any command in your group"
 		},
@@ -103,7 +99,7 @@ module.exports = {
 								commandName,
 								aliases: [alias]
 							});
-						await globalData.set('setalias', 'data', globalAliasesData);
+						await globalData.set('setalias', globalAliasesData, 'data');
 						global.GoatBot.aliases.set(alias, commandName);
 						return message.reply(getLang("addAliasSuccess", alias, commandName));
 					}
@@ -143,7 +139,7 @@ module.exports = {
 						if (!globalAliasesThisCommand || !globalAliasesThisCommand.aliases.includes(alias))
 							return message.reply(getLang("aliasNotExist", alias, commandName));
 						globalAliasesThisCommand.aliases.splice(globalAliasesThisCommand.aliases.indexOf(alias), 1);
-						await globalData.set('setalias', 'data', globalAliasesData);
+						await globalData.set('setalias', globalAliasesData, 'data');
 						global.GoatBot.aliases.delete(alias);
 						return message.reply(getLang("removeAliasSuccess", alias, commandName));
 					}
