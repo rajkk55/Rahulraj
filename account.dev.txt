@@ -1,52 +1,52 @@
 [
   {
     "key": "datr",
-    "value": "4B1HZuz6y_ltqA1w9bKhop_L",
-    "expires": "2025-06-21T09:05:36.000Z",
+    "value": "V2pIZuYLE0OioX41_-_fGPNv",
+    "expires": "2025-06-22T08:44:07.000Z",
     "domain": "facebook.com",
     "path": "/",
     "hostOnly": false,
-    "creation": "2024-05-17T09:05:42.385Z",
-    "lastAccessed": "2024-05-17T09:05:46.660Z"
+    "creation": "2024-05-18T08:44:10.329Z",
+    "lastAccessed": "2024-05-18T08:44:15.406Z"
   },
   {
     "key": "sb",
-    "value": "4B1HZtEXXMvOj1LeotOnTJkA",
-    "expires": "2025-06-21T09:05:37.000Z",
+    "value": "V2pIZlgrK6ikYmtI3zEf84Kd",
+    "expires": "2025-06-22T08:44:07.000Z",
     "domain": "facebook.com",
     "path": "/",
     "hostOnly": false,
-    "creation": "2024-05-17T09:05:42.386Z",
-    "lastAccessed": "2024-05-17T09:05:46.660Z"
+    "creation": "2024-05-18T08:44:10.331Z",
+    "lastAccessed": "2024-05-18T08:44:15.406Z"
   },
   {
     "key": "fr",
-    "value": "0sWazgNAfAq1HXijV.AWWGyCNw7gvfZJyPEUabtBYS5Zk.BmRx3g..AAA.0.0.BmRx3h.AWVJhSnA22A",
-    "expires": "2024-08-15T09:05:37.000Z",
+    "value": "0tiL0rFtzPcyCeg9C.AWWla2BOUi7OWmGPml0oRkNvxL0.BmSGpX..AAA.0.0.BmSGpX.AWXyKIU93GA",
+    "expires": "2024-08-16T08:44:07.000Z",
     "domain": "facebook.com",
     "path": "/",
     "hostOnly": false,
-    "creation": "2024-05-17T09:05:42.388Z",
-    "lastAccessed": "2024-05-17T09:05:46.660Z"
+    "creation": "2024-05-18T08:44:10.334Z",
+    "lastAccessed": "2024-05-18T08:44:15.406Z"
   },
   {
     "key": "c_user",
-    "value": "61559767502303",
-    "expires": "2025-05-17T09:05:37.000Z",
+    "value": "61551414658065",
+    "expires": "2025-05-18T08:44:07.000Z",
     "domain": "facebook.com",
     "path": "/",
     "hostOnly": false,
-    "creation": "2024-05-17T09:05:42.389Z",
-    "lastAccessed": "2024-05-17T09:05:46.660Z"
+    "creation": "2024-05-18T08:44:10.335Z",
+    "lastAccessed": "2024-05-18T08:44:15.406Z"
   },
   {
     "key": "xs",
-    "value": "12%3ANzDpxRbEVi_s7A%3A2%3A1715936738%3A-1%3A-1",
-    "expires": "2025-05-17T09:05:37.000Z",
+    "value": "24%3AMcpMlWOFJWwYHg%3A2%3A1716021848%3A-1%3A3594",
+    "expires": "2025-05-18T08:44:07.000Z",
     "domain": "facebook.com",
     "path": "/",
     "hostOnly": false,
-    "creation": "2024-05-17T09:05:42.390Z",
-    "lastAccessed": "2024-05-17T09:05:46.660Z"
+    "creation": "2024-05-18T08:44:10.337Z",
+    "lastAccessed": "2024-05-18T08:44:15.406Z"
   }
 ]
