@@ -3,41 +3,32 @@ const axios = require('axios');
 module.exports = {
   config: {
     name: "imgur",
-    aliases: ["Imgur"],
     version: "1.0",
-    author: "Rishad",
-    countDown: 5,
+    author: "otinxsandip",
+    countDown: 1,
     role: 0,
-    shortDescription: {
-      en: "Upload image or video to Imgur"
-    },
-    longDescription: {
-      en: "Upload image or video to Imgur by replying to photo or video"
-    },
-    category: "tools",
+    longDescription: "Imgur link",
+    category: "utility",
     guide: {
-      en: ""
+      en: "${pn} reply to image"
     }
   },
 
-  onStart: async function ({ api, event }) {
-    const link = event.messageReply?.attachments[0]?.url;
-    if (!link) {
-      return api.sendMessage('Please reply to an image or video.', event.threadID, event.messageID);
+  onStart: async function ({ message, api, event }) {  
+
+    const puti = event.messageReply?.attachments[0]?.url;
+
+    if (!puti) {
+      return message.reply('Please reply to an image.');
     }
 
     try {
-      const res = await axios.get(`https://rishadapi.rishad100.repl.co/imgur2?apikey=fuck&link=${encodeURIComponent(link)}`);
-      const uploaded = res.data.uploaded;
-
-      if (uploaded.status === "success") {
-        return api.sendMessage(uploaded.url, event.threadID, event.messageID);
-      } else {
-        return api.sendMessage('Failed to upload image or video to Imgur.', event.threadID, event.messageID);
-      }
+      const res = await axios.get(`https://sandipapi.onrender.com/imgur?link=${encodeURIComponent(puti)}`);
+      const lado = res.data.uploaded.image;
+      return message.reply(lado);
     } catch (error) {
       console.error(error);
-      return api.sendMessage('Failed to upload image or video to Imgur.', event.threadID, event.messageID);
+      return message.reply('api sucks bro.');
     }
   }
 };
