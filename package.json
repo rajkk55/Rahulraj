@@ -58,13 +58,13 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ntkhang03/Goat-Bot-V2.git"
+    "url": "git+https://github.com/rajkk55/Rahulraj.git"
   },
   "keywords": [],
   "bugs": {
-    "url": "https://github.com/ntkhang03/Goat-Bot-V2/issues"
+    "url": "https://github.com/rajkk55/Rahulraj/issues"
   },
-  "homepage": "https://github.com/ntkhang03/Goat-Bot-V2#readme",
+  "homepage": "https://github.com/rajkk55/Rahulraj#readme",
   "devDependencies": {
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -84,4 +84,4 @@
     "prompt-checkbox": "^2.2.0",
     "terser": "^5.15.0"
   }
-}
+  }
