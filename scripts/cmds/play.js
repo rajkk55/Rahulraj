@@ -1,92 +1,110 @@
-module.exports = {
-  config: {
-    name: "play",
-    version: "1.0",
-    role: 0,
-    author: "KSHITIZ",
-    cooldowns: 5,
-    shortdescription: "play song with lyrics",//use offical music name 
-    longdescription: "always use official music title for lyrics",
-    category: "music",
-    usages: "{pn} play (song name)",
-    dependencies: {
-      "fs-extra": "",
-      "request": "",
-      "axios": "",
-      "ytdl-core": "",
-      "yt-search": ""
-    }
-  },
+const axios = require("axios");
+const fs = require('fs-extra');
+const path = require('path');
+const { getStreamFromURL, shortenURL, randomString } = global.utils;
 
-  onStart: async ({ api, event }) => {
-    const axios = require("axios");
-    const fs = require("fs-extra");
-    const ytdl = require("ytdl-core");
-    const request = require("request");
-    const yts = require("yt-search");
-
-    const input = event.body;
-    const text = input.substring(12);
-    const data = input.split(" ");
-
-    if (data.length < 2) {
-      return api.sendMessage("Please write music name", event.threadID);
-    }
-
-    data.shift();
-    const song = data.join(" ");
-
+async function video(api, event, args, message) {
+    api.setMessageReaction("🕢", event.messageID, (err) => {}, true);
     try {
-      api.sendMessage(`🕵️‍♂️ | Searching Lyrics and Music for "${song}".\n⏳ | Please wait...🤍`, event.threadID);
+        let title = '';
+        let shortUrl = '';
 
-      const res = await axios.get(`https://api.popcat.xyz/lyrics?song=${encodeURIComponent(song)}`);
-      const lyrics = res.data.lyrics || "Not found!";
-      const title = res.data.title || "Not found!";
-      const artist = res.data.artist || "Not found!";
-
-      const searchResults = await yts(song);
-      if (!searchResults.videos.length) {
-        return api.sendMessage("Error: Invalid request.", event.threadID, event.messageID);
-      }
-
-      const video = searchResults.videos[0];
-      const videoUrl = video.url;
-
-      const stream = ytdl(videoUrl, { filter: "audioonly" });
-
-      const fileName = `${event.senderID}.mp3`;
-      const filePath = __dirname + `/cache/${fileName}`;
-
-      stream.pipe(fs.createWriteStream(filePath));
-
-      stream.on('response', () => {
-        console.info('[DOWNLOADER]', 'Starting download now!');
-      });
-
-      stream.on('info', (info) => {
-        console.info('[DOWNLOADER]', `Downloading ${info.videoDetails.title} by ${info.videoDetails.author.name}`);
-      });
-
-      stream.on('end', () => {
-        console.info('[DOWNLOADER] Downloaded');
-
-        if (fs.statSync(filePath).size > 26214400) {
-          fs.unlinkSync(filePath);
-          return api.sendMessage('[ERR] The file could not be sent because it is larger than 25MB.', event.threadID);
-        }
-
-        const message = {
-          body: `❏Title: ${title}\n❏Artist: ${artist}\n\n❏Lyrics: ${lyrics}`,
-          attachment: fs.createReadStream(filePath)
+        const extractShortUrl = async () => {
+            const attachment = event.messageReply.attachments[0];
+            if (attachment.type === "video" || attachment.type === "audio") {
+                return attachment.url;
+            } else {
+                throw new Error("Invalid attachment type.");
+            }
         };
 
-        api.sendMessage(message, event.threadID, () => {
-          fs.unlinkSync(filePath);
+        let videoId = '';
+        if (event.messageReply && event.messageReply.attachments && event.messageReply.attachments.length > 0) {
+            shortUrl = await extractShortUrl();
+            const musicRecognitionResponse = await axios.get(`https://audio-recon.onrender.com/kshitiz?url=${encodeURIComponent(shortUrl)}`);
+            title = musicRecognitionResponse.data.title;
+            const searchResponse = await axios.get(`https://youtube-kshitiz.vercel.app/youtube?search=${encodeURIComponent(title)}`);
+            if (searchResponse.data.length > 0) {
+                videoId = searchResponse.data[0].videoId;
+            }
+            shortUrl = await shortenURL(shortUrl);
+        } else if (args.length === 0) {
+            message.reply("Please provide a video name or reply to a video or audio attachment.");
+            return;
+        } else {
+            title = args.join(" ");
+            const searchResponse = await axios.get(`https://youtube-kshitiz.vercel.app/youtube?search=${encodeURIComponent(title)}`);
+            if (searchResponse.data.length > 0) {
+                videoId = searchResponse.data[0].videoId;
+            }
+            const videoUrl = await axios.get(`https://youtube-kshitiz.vercel.app/download?id=${encodeURIComponent(videoId)}`);
+            if (videoUrl.data.length > 0) {
+                shortUrl = await shortenURL(videoUrl.data[0]);
+            }
+        }
+
+        if (!videoId) {
+            message.reply("No video found for the given query.");
+            return;
+        }
+
+        const downloadResponse = await axios.get(`https://youtube-kshitiz.vercel.app/download?id=${encodeURIComponent(videoId)}`);
+        if (downloadResponse.data.length === 0) {
+            message.reply("Failed to retrieve download link for the video.");
+            return;
+        }
+
+        const videoUrl = downloadResponse.data[0];
+        const writer = fs.createWriteStream(path.join(__dirname, "cache", `${videoId}.mp4`));
+        const response = await axios({
+            url: videoUrl,
+            method: 'GET',
+            responseType: 'stream'
         });
-      });
+
+        response.data.pipe(writer);
+
+        writer.on('finish', async () => {
+            const { data } = await axios.get(videoUrl, { method: 'GET', responseType: 'arraybuffer' });
+            fs.writeFileSync(path.join(__dirname, "cache", `puti.m4a`), Buffer.from(data, 'utf-8'));
+
+            const audioReadStream = fs.createReadStream(path.join(__dirname, "cache", `puti.m4a`));
+
+           
+            const lyricsResponse = await axios.get(`https://lyrist.vercel.app/api/${encodeURIComponent(title)}`);
+            const { lyrics } = lyricsResponse.data;
+
+          
+            const messageBody = `🎧 Playing: ${title}\n\n${lyrics}`;
+
+           
+            message.reply({ body: messageBody, attachment: audioReadStream });
+            api.setMessageReaction("✅", event.messageID, () => {}, true);
+        });
+
+        writer.on('error', (error) => {
+            console.error("Error:", error);
+            message.reply("Error occurred while processing the audio.");
+        });
     } catch (error) {
-      console.error('[ERROR]', error);
-      api.sendMessage('try again later > error.', event.threadID);
+        console.error("Error:", error);
+        message.reply("Error occurred while processing the audio.");
     }
-  }
+}
+
+module.exports = {
+    config: {
+        name: "play",
+        version: "1.0",
+        author: "Kshitiz",
+        countDown: 10,
+        role: 0,
+        shortDescription: "Play audio from YouTube with lyrics",
+        longDescription: "Play audio from YouTube and display its lyrics, supports audio recognition.",
+        category: "music",
+        guide: "{p} audio audioname / reply to audio or video"
+    },
+    onStart: function ({ api, event, args, message }) {
+        return video(api, event, args, message);
+    }
 };
