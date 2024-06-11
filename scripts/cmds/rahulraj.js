@@ -14,7 +14,7 @@ module.exports = {
     if (event.body && event.body.toLowerCase() === "rahul raj") {
       return message.reply({
         body: "🤏🕶️😗",
-        attachment: await global.utils.getStreamFromURL("https://i.imgur.com/ZSPrU7S.jpg")
+        attachment: await global.utils.getStreamFromURL("")
       });
     }
   }
