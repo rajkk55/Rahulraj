@@ -15,7 +15,7 @@ module.exports = {
     if (text.includes("pain")) {
       return message.reply({
         body: "shinara tensai!",
-        attachment: await global.utils.getStreamFromURL("https://drive.google.com/uc?export=download&id=113QRKrl3NoOQC-QsbmsF5ZvzPHp7Fs8U")
+        attachment: await global.utils.getStreamFromURL("")
       });
     }
   }
